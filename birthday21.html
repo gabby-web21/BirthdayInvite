@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabby’s 21st Birthday</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: radial-gradient(circle at top left, #000 20%, #111 80%);
+  color: #f7f3f5;
+  min-height: 100vh;
+  padding: 20px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Glittering star background */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: transparent;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(2px 2px at 70px 100px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 130px 170px, rgba(255,255,255,0.3), transparent),
+    radial-gradient(2px 2px at 200px 50px, rgba(255,255,255,0.4), transparent);
+  background-repeat: repeat;
+  animation: twinkle 12s linear infinite;
+  z-index: 0;
+}
+
+@keyframes twinkle {
+  0%,100%{opacity:0.8;} 50%{opacity:0.4;}
+}
+
+.container::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%; height: 110%;
+  background: radial-gradient(circle, rgba(255, 235, 245, 0.25), transparent 70%);
+  border-radius: 20px;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  max-width: 850px;
+  margin: 60px auto;
+  border-radius: 20px;
+  background: #fff6f9;
+  color: #2b2b2b;
+  box-shadow: 0 0 40px rgba(255, 192, 203, 0.4);
+  padding: 50px 30px 40px;
+  z-index: 2;
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 3px;
+  background: linear-gradient(135deg, #f8c3d1, #f5aabf, #f9bfc9, #f7a7c0);
+  background-size: 400% 400%;
+  animation: borderSparkle 6s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+}
+
+.glow-layer {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 20px;
+  background: radial-gradient(circle, rgba(255, 235, 245, 0.25), transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes borderSparkle {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Ribbon */
+.ribbon {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #f9a6c0, #f7c0d1, #f8aac5);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  box-shadow: 0 0 10px rgba(255, 200, 220,0.5);
+}
+
+/* Titles */
+h1 { font-family: 'Great Vibes', cursive; text-align: center; font-size: 3.5rem; color: #e19abf; margin-bottom: 8px; }
+h2 { font-family: 'Playfair Display', serif; text-align: center; font-size: 1.2rem; color: #5d3d4f; margin-bottom: 30px; }
+
+/* Venue Rows */
+.venue-row.left-right { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+.venue-row.centered { text-align: center; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+.venue-row .label { font-weight: 600; color: #444; }
+.venue-row .value { color: #555; }
+
+/* Buttons */
+.download-btn, .rsvp-btn {
+  display: flex;
+  justify-content: center;
+  margin: 25px auto 0;
+  padding: 14px 45px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, #f8c3d1, #f5aabf);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(248, 195, 209,0.5);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.rsvp-btn::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+  transform: skewX(-25deg);
+  transition: 0.7s;
+  opacity: 0;
+}
+.rsvp-btn:hover::after { left: 125%; opacity: 1; }
+.rsvp-btn:hover, .download-btn:hover { transform: scale(1.05); }
+
+/* RSVP Form */
+.rsvp-form { display: none; background: #fff6f9; color: #111; padding: 30px; margin-top: 20px; border-radius: 16px; box-shadow: 0 0 25px rgba(248,200,220,0.4); }
+.rsvp-form h2 { color: #f8c3d1; margin-bottom: 20px; }
+label { display: block; margin: 8px 0 4px; font-weight: 500; }
+input, textarea { width: 100%; padding: 10px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
+.rsvp-yesno { display: flex; gap: 10px; margin-bottom: 12px; }
+.rsvp-yesno button { flex: 1; padding: 16px 0; font-size: 1.1rem; border: none; border-radius: 10px; background: #f8c3d1; color: #fff; cursor: pointer; transition: 0.3s; }
+.rsvp-yesno button:hover { background: #f5aabf; }
+.rsvp-yesno button.active { background: #f5aabf; color: #222; }
+.guest-pill { display: inline-block; padding: 6px 12px; margin: 4px; border-radius: 999px; border: 1px solid #f8c3d1; cursor: pointer; }
+.guest-pill.active { background: #f8c3d1; color: #fff; }
+form button[type="submit"] {
+  background: linear-gradient(135deg, #f8c3d1, #f5aabf);
+  color: white; font-weight: 700; border: none; border-radius: 8px;
+  padding: 14px 20px; width: 100%; font-size: 1.05rem;
+  box-shadow: 0 0 12px rgba(248,195,209,0.5); cursor: pointer; transition: all 0.3s ease;
+}
+form button[type="submit"]:hover { transform: scale(1.03); background: linear-gradient(135deg, #f5aabf, #f8c3d1); }
+
+/* Toast */
+#toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #f8c3d1; color: white; padding: 12px 20px; border-radius: 12px; opacity: 0; transition: 0.5s; font-weight: 600; z-index: 10; }
+
+/* Map */
+.map-wrap { margin-top: 16px; border-radius: 12px; overflow: hidden; border: 1px solid #ccc; }
+.map-embed { width: 100%; height: 250px; border: 0; }
+
+/* Bubble wrapper */
+#bubbleWrapper { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+.bubble { position: absolute; background: rgba(255, 200, 220, 0.6); border-radius: 50%; animation: rise 8s linear infinite; pointer-events: none; }
+@keyframes rise {
+  0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-50vh) scale(1); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div id="bubbleWrapper"></div>
+
+<div class="container venue-details" id="inviteCard">
+   <div class="glow-layer"></div>
+  <div class="ribbon">You're Invited To</div>
+
+  <h1>Gabriella’s 21st Birthday</h1>
+  <h2>Saturday, 22 November 2025 • 16:00–22:30</h2>
+
+  <div class="venue-row left-right"><span class="label">Venue:</span><span class="value">The Range Function & Conference Venue</span></div>
+  <div class="venue-row left-right"><span class="label">Address:</span><span class="value">Orpen Road, Tokai, 7966, Cape Town</span></div>
+  <div class="venue-row left-right"><span class="label">Dress Code:</span><span class="value">Semi-Formal Elegance</span></div>
+  <div class="venue-row centered"><strong>RSVP BY 7TH NOVEMBER 2025</strong></div>
+
+  <div class="venue-row centered">
+    <span class="label"><strong>Directions:</strong></span>
+    <span class="value">From the entrance, drive past the Chapel on your left. Hang left, then immediately take a right. Continue straight until you reach the log cabin.</span>
+  </div>
+  <div class="venue-row centered"><span class="label"><strong>Cash Bar Available</strong></span></div>
+
+  <button id="downloadInvite" class="download-btn">Download Invite</button>
+
+  <div class="map-wrap">
+    <iframe class="map-embed" loading="lazy" src="https://www.google.com/maps?q=Orpen+Road,+Tokai,+7966,+Cape+Town&output=embed"></iframe>
+  </div>
+
+  <div class="venue-row centered">
+    <a class="value" href="https://maps.app.goo.gl/mj5QLwVr1ck9Ncto6" target="_blank">Open in Google Maps</a>
+  </div>
+
+  <div class="rsvp-btn" id="showRSVP">RSVP Now</div>
+</div>
+
+<div class="container rsvp-form" id="rsvpFormSection">
+  <h2>RSVP Here!</h2>
+  <form id="rsvpForm" action="https://formspree.io/f/movkpgdd" method="POST">
+    <label>Full Name</label>
+    <input type="text" name="name" placeholder="Full Name" required>
+
+    <label>Will you be attending?</label>
+    <div class="rsvp-yesno">
+      <button type="button" id="yesBtn">Yes</button>
+      <button type="button" id="noBtn">No</button>
+    </div>
+
+    <div id="ifYes" style="display:none;">
+      <label>Who is coming with you?</label>
+      <div class="guest-options">
+        <div class="guest-pill" data-value="1">Raoul</div>
+        <div class="guest-pill" data-value="2">Chantel</div>
+        <div class="guest-pill" data-value="3">Gabriella</div>
+        <div class="guest-pill" data-value="4">Jayden</div>
+      </div>
+      <input type="hidden" id="guestsInput" name="guests">
+      <label>Dietary Restrictions</label>
+      <input type="text" name="diet" placeholder="e.g., vegetarian, gluten-free">
+    </div>
+
+    <div id="ifNo" style="display:none;">
+      <label>Message</label>
+      <textarea name="message" placeholder="Leave a message..."></textarea>
+    </div>
+
+    <button type="submit">Send RSVP</button>
+  </form>
+</div>
+
+<div id="toast">Thank you for your RSVP!</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+// Bubble generation
+const bubbleWrapper = document.getElementById('bubbleWrapper');
+for(let i=0;i<25;i++){
+  const bubble=document.createElement('div');
+  bubble.className='bubble';
+  bubble.style.width=bubble.style.height=`${Math.random()*12+6}px`;
+  bubble.style.left=`${Math.random()*100}%`;
+  bubble.style.animationDuration=`${Math.random()*6+6}s`;
+  bubbleWrapper.appendChild(bubble);
+}
+
+// RSVP toggle
+const showRSVP=document.getElementById('showRSVP');
+const venueSection=document.querySelector('.venue-details');
+const rsvpFormSection=document.getElementById('rsvpFormSection');
+showRSVP.addEventListener('click',()=>{
+  venueSection.style.display='none';
+  rsvpFormSection.style.display='block';
+  rsvpFormSection.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+// Yes/No
+const yesBtn=document.getElementById('yesBtn');
+const noBtn=document.getElementById('noBtn');
+const ifYes=document.getElementById('ifYes');
+const ifNo=document.getElementById('ifNo');
+let attending=null;
+function setAttending(v){
+  attending=v;
+  if(v){ yesBtn.classList.add('active'); noBtn.classList.remove('active'); ifYes.style.display='block'; ifNo.style.display='none'; }
+  else{ noBtn.classList.add('active'); yesBtn.classList.remove('active'); ifYes.style.display='none'; ifNo.style.display='block'; }
+}
+yesBtn.addEventListener('click',()=>setAttending(true));
+noBtn.addEventListener('click',()=>setAttending(false));
+
+// Guest selection
+const guestPills=document.querySelectorAll('.guest-pill');
+const guestsInput=document.getElementById('guestsInput');
+guestPills.forEach(p=>p.addEventListener('click',()=>{
+  p.classList.toggle('active');
+  const selected=Array.from(guestPills).filter(p=>p.classList.contains('active')).map(p=>p.dataset.value);
+  guestsInput.value=selected.join(', ');
+}));
+
+// Form submission
+const form=document.getElementById('rsvpForm');
+const toast=document.getElementById('toast');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  if(attending===null){alert('Please select Yes or No.');return;}
+  fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
+  .then(r=>{ if(r.ok){ toast.style.opacity=1; setTimeout(()=>toast.style.opacity=0,3000); form.reset(); ifYes.style.display='none'; ifNo.style.display='none'; attending=null; }else alert('Oops! Something went wrong.'); }).catch(()=>alert('Network error.'));
+});
+
+const downloadBtn = document.getElementById('downloadInvite');
+
+downloadBtn.addEventListener('click', () => {
+  // Replace with your actual OneDrive link
+  const imageUrl = 'https://belgiumcampusacza-my.sharepoint.com/:i:/g/personal/600850_student_belgiumcampus_ac_za/EbiEMbwunedBhc8UOqVMx3kBFS8ngKABSPjnH3oafOU7nQ?e=s24lEg';
+
+  // Create and trigger a temporary link
+  const link = document.createElement('a');
+  link.href = imageUrl;
+  link.target = '_blank'; // open in new tab
+  link.click();
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
